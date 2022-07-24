@@ -1,0 +1,22 @@
+---
+
+  - name: update web servers
+    hosts: all
+    become: yes
+
+    tasks:
+        - name: ensure apache is installed
+          package:
+              name: apache2
+              state: present
+
+        - name: ensure apache2 is restarted
+          serrvice:
+              name: apache2
+              state: restarted
+
+        - name: ensure apache2 is enabled
+          serrvice:
+              name: apache2
+              enabled: yes
+...

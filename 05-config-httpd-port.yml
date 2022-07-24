@@ -1,0 +1,24 @@
+//Configuration of httpd port
+
+---
+
+    - name: update web servers
+      hosts: all
+      become: yes
+      tasks:
+    
+        - name: ensure httpd file is updated
+          copy: 
+            dest: /etc/httpd/conf/httpd
+            src: httpd.conf
+      
+      - name:
+        selinux:
+            policy: targeted
+            state: permissive
+
+        - name: ensure httpd is restarted
+          serrvice:
+              name: httpd
+              state: restarted
+...

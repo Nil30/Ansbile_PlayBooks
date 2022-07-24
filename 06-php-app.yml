@@ -1,0 +1,35 @@
+//creating php file and again restated httpd Server
+
+---
+
+    - name: update web servers
+      hosts: all
+      become: yes
+      tasks:
+    
+        - name: ensure php file is updated
+          copy: 
+            dest: /var/www/html/date.php
+            src: date.php
+      
+        - name: ensure php is restarted
+          serrvice:
+              name: php
+              state: present
+
+        - name: ensure httpd is restarted
+          serrvice:
+              name: httpd
+              state: restarted
+
+        - name: ensure httpd file is updated
+          copy: 
+            dest: /etc/httpd/conf/httpd
+            src: httpd.conf
+
+        - name: ensure httpd is restarted
+          serrvice:
+              name: httpd
+              state: restarted
+
+...

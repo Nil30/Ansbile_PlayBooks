@@ -1,0 +1,82 @@
+---
+
+  - name: update web servers
+    hosts: all
+    become: yes
+    vars:
+        username: developer
+        http_port: 8090
+
+    handlers:
+        - name: Restart Appache
+          service:
+               name: httpd
+               state: restarted
+
+    tasks:
+        - name: managed SELinux
+          selinux:
+              policy: targeted
+              state: permissive
+              when: ansible_os_family == "RedHat"
+
+        - name: ensure apache is installed
+          package:
+              name: apache2
+              state: present
+              when: ansible_os_family == "Debian
+
+        - name: ensure apache2 is started
+          serrvice:
+              name: apache2
+              state: started
+              when: ansible_os_family == "Debian
+
+        - name: ensure apache2 is enabled
+          serrvice:
+              name: apache2
+              enabled: yes
+              when: ansible_os_family == "Debian
+
+        - name: ensure apache is installed
+          package:
+              name: apache2
+              state: present
+              when:  ansible_os_family == "RedHat"
+
+        - name: ensure apache2 is started
+          serrvice:
+              name: apache2
+              state: started
+              when:  ansible_os_family == "RedHat"
+
+        - name: ensure apache2 is enabled
+          serrvice:
+              name: apache2
+              enabled: yes
+              when:  ansible_os_family == "RedHat"
+
+         - name: ensure httpd file is updated
+          copy: 
+            dest: /var/www/html/welcome.html
+            src: sheldon.html
+
+         - name: update server info 
+          copy: 
+            dest: /var/www/html/static.html
+            src: statuc.html
+
+         - name: update dynamic info 
+          template: 
+            dest: /var/www/html/dynamic.html
+            src: dynamic.js2
+
+         - name: update apache config
+           template:
+              dest: /etc/httpd/conf/httpd.conf
+              src: httpd.j2
+              when: ansible_os_family == "RedHat"
+              notify:
+                  - Restart Apache
+
+...

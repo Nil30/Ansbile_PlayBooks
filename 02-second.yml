@@ -1,0 +1,34 @@
+// this playbook create file , copy directory
+
+---
+
+- name: update web servers
+  hosts: web
+  tasks:
+
+    - name: ensure directory is created
+      file:
+        path: /home/centos/web
+        state : directory
+    
+    - name: ensure file is updated
+      copy:
+        dest: /home/centos/web/web.html
+        content: Welcome to web server
+
+
+- name: update app servers
+  hosts: app
+  tasks:
+
+    - name: ensure directory is created
+      file:
+        path: /home/centos/app
+        state : directory
+    
+    - name: ensure file is updated
+      copy:
+        dest: /home/centos/web/app.html
+        content: Welcome to app server
+
+...

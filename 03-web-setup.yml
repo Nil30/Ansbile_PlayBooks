@@ -1,0 +1,24 @@
+//Instlling apache in Node Server
+// become is used for sudo permision
+---
+
+    - name: update web servers
+      hosts: web
+      become: yes
+      tasks:
+    
+        - name: ensure appache is installed
+          packages:
+            name: httpd
+            state: present 
+        
+        - name: ensure apache is started
+          service:
+            name: httpd
+            state: started 
+    
+        - name: ensure apache is enabled
+          service:
+            name: httpd
+            enabled: yes    
+...

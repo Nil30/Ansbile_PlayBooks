@@ -1,0 +1,45 @@
+// Hander is used for whenver there is new updated or changed happend its automatically do the task
+/*
+  Hander Syntax
+     notify:
+              - Restart Apache
+     handlers:
+        - name: Restart Appache
+          service:
+               name: httpd
+               state: restarted             
+/*
+
+
+---
+
+  - name: update web servers
+    hosts: all
+    become: yes
+
+    handlers:
+        - name: Restart Appache
+          service:
+               name: httpd
+               state: restarted
+
+    tasks:
+        - name: ensure php file is updated
+          copy:
+             dest: /var/www/html/date.php
+             src: date.php
+
+        - name: ensure php is installed
+          package:
+              name: php
+              state: present
+          notify:
+              - Restart Apache
+
+        - name: ensure httpd file updated
+          copy: 
+            dest: /etc/httpd/conf/httpd
+            src: httpd.conf
+          notify:
+              - Restart Apache
+...

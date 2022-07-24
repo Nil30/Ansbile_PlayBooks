@@ -1,0 +1,19 @@
+//update the httpd file and restared httpd service
+
+---
+
+    - name: update web servers
+      hosts: all
+      become: yes
+      tasks:
+    
+        - name: ensure httpd file is updated
+          copy: 
+            dest: /etc/httpd/conf/httpd
+            src: httpd.conf
+      
+        - name: ensure httpd is restarted
+          serrvice:
+              name: httpd
+              state: restarted
+...
