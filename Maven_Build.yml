@@ -1,0 +1,39 @@
+---
+
+  - name: update web servers
+    hosts: all
+    become: yes
+
+    handlers:
+        - name: Restart Appache
+          service:
+               name: httpd
+               state: restarted
+
+
+        - name: ensure java is installed
+          package:
+            name: java-1.8.0*
+            state: present
+
+        - name: ensure wegt and git is installed
+          package:
+            name: wget
+            state: present
+
+          package:
+            name: git
+            state: present
+
+        - name: Donwload Apache Tomact
+          get_url:
+            url: https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.94/bin/apache-tomcat-7.0.94.tar.gz
+            dest: /home/centos/
+            mode: '0440'
+
+        - name: Extract Apache Tomact File 
+          unarchive:  
+            src: apache-tomcat-7.0.94.tar.gz
+            dest: /home/centos/
+
+...

@@ -1,0 +1,39 @@
+//cloning Git Repository
+//Runnin Website on Server
+
+---
+- name: update web server
+  hosts: web
+  become: yes
+  tasks:
+
+  handlers:
+    - name: Restart Appache
+      service:
+        name: httpd
+        state: restarted
+
+    - name: Ensure appache is installed
+      package:
+        name: httpd
+        state: present
+
+    - name: Ensure git is installed
+      package:
+        name: git
+        state: present
+
+    - name: Ensure cloning  git Repository
+      git:
+        repo: "https://github.com/ravi2krishna/ecomm.git" 
+        dest: /var/www/html/   
+        clone: yes
+        update: yes
+        notify:
+          - Restart Apache
+
+    - name: Ensure Apache is Enabled
+      service:
+        name: httpd
+        enabled: yes
+...

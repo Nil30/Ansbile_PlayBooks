@@ -1,0 +1,34 @@
+//Instlling apache in Node Server
+// become is used for sudo permision
+---
+
+    - name: update build servers
+      hosts: build(HostName)
+      become: yes
+      tasks:
+
+        - name: ensure java is installed
+          packages:
+            name: java-1.8.0-openjdk.x84_64
+            state: present
+
+        - name: ensure java is installed
+          packages:
+            name: java-1.8.0-devel.x84_64
+            state: present
+
+        - name: Download Apache Maven 
+          packages:
+            name: httpd
+            state: present 
+        
+        - name: ensure apache is started
+          service:
+            name: httpd
+            state: started 
+    
+        - name: ensure apache is enabled
+          service:
+            name: httpd
+            enabled: yes    
+...

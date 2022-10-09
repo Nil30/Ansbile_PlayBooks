@@ -1,0 +1,16 @@
+---
+
+- name: update web server
+  hosts: web
+  tasks:
+
+    - name: changing directory building project using maven
+      command: /home/centos/maven-webapp/
+      command: mvn package
+
+    - name: starting apache tomcat server
+      command: sudo ~/apache-tomcat-7.0.94/bin/startup.sh
+      command: sudo ~/apache-tomcat-7.0.94/bin/status.sh
+
+...
+~    
